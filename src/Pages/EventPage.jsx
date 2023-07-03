@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, useToast } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { deleteEvent, fetchEvent, updateEvent } from "../services/eventsData";
 
 // EventPage.js
 
 const EventPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [event, setEvent] = useState(null);
     const toast = useToast();
 
@@ -36,7 +37,7 @@ const EventPage = () => {
                 duration: 3000,
                 isClosable: true,
             });
-            // Perform any necessary actions after deleting the event
+            navigate("/");
         } catch (error) {
             console.error(error);
             // Show error message
@@ -48,9 +49,10 @@ const EventPage = () => {
             {event ? (
                 <>
                     <h2>{event.title}</h2>
-                    <p>{event.description}</p>
+                    <p>{event.description}</p>                    <p>{event.startTime}</p>
+                    <p>{event.endTime}</p>                <img src={event.creator.image} alt={event.title} />
+
                     {/* Display other event details */}
-                    <Button>Edit</Button>
                     <Button onClick={handleDelete}>Delete</Button>
                 </>
             ) : (
